@@ -1,4 +1,8 @@
 baseURL = "http://33eyes.github.io"
 languageCode = "en-us"
-title = "arigume"
+title = "arina igumenshcheva"
 theme = "ananke"
+
+[params]
+    background_color_class = "bg-dark-green"
+    custom_css = ["css/custom.css"]
