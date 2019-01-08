@@ -1,5 +1,12 @@
 
 
-.bg-dark-green {
-    background-color: #015d43;
+
+.nav-title {
+  color: #3844da;
+  font-family: Arial, sans-serif;
+  line-height: normal;
+}
+
+.catalogue-line {
+  border-color: #3844da;
 }
