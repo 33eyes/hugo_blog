@@ -1,9 +1,10 @@
-+++
-title = "Exploring Wikipedia clickstream data, part 1"
-date = "2018-04-16T10:20:00-05:00"
-categories = ["Projects"]
-tags = ["graph-databases", "neo4j", "Cypher", "clickstream", "ETL", "network-analysis", "Python"]
-+++
+---
+title: Exploring Wikipedia clickstream
+date: 2018-04-16T10:20:00-05:00
+categories: Projects
+tags: ["graph-databases", "neo4j", "Cypher", "clickstream", "ETL", "network-analysis", "Python"]
+summary: An investigation of aggregated Wikipedia clickstream data using a graph database and network analysis.
+---
 
 Whenever I want to learn about something, I google it, and sooner or later I end up on Wikipedia. And so do millions of other people, in many different languages. Wikipedia is a vast repository of knowledge organized into interlinked articles, and there are lots of ways to navigate through it as we learn. Whenever we browse Wikipedia, we learn and gather information, so perhaps our browsing behavior tendencies on Wikipedia can tell us something about how we learn on the internet. Do we tend to get the info that we need and move on? Do we delve into details and subtopics when we find something interesting? Do we tend to wander off into other topics? Do these behaviors vary across the different Wikipedia language domains? We can explore such questions by looking at the Wikipedia clickstream data.
 
@@ -65,8 +66,7 @@ This blog post will cover the 1st step, and the next steps will be covered in su
 
 
 
-# ETL
-_(a.k.a. [Export, Transform and Load](https://en.wikipedia.org/wiki/Extract,_transform,_load) the data)_
+# ETL  
 
 Data download and cleaning
 -----
@@ -250,13 +250,13 @@ To view the database schema, run `CALL db.schema()` in the neo4j browser.
 ##### **Wikipedia clickstream db schema**
 </div>
 <div class="centered" markdown="1">
-![Wikipedia clickstream db schema]({filename}/images/graph_db_schema.png)
+![Wikipedia clickstream db schema](/images/graph_db_schema.png)
 </div>
 <br>
 
 To view a sample of the data in the graph, we can run `MATCH p=()-[r:REFERRED_TO]->(n:Article {language_code:'EN'}) RETURN p LIMIT 25` in the neo4j browser:  
 <div class="centered scaled" markdown="1">
-![neo4j query output]({filename}/images/english_wiki_25_rels_graph.png)
+![neo4j query output](/images/english_wiki_25_rels_graph.png)
 </div>
 
 From this sample subgraph, we can see that the clickstream data is highly interconnected. We can inspect closer a handful of nodes in the neo4j browser on a case by case basis, but to get a sense of what's going on in this graph as a whole, we need to use network analysis techniques.
