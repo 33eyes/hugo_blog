@@ -8,3 +8,7 @@ theme = "tale"
 
 [params]
     custom_css = ["css/custom.css"]
+
+[taxonomies]
+    tag = "tags"
+    category = "categories"
