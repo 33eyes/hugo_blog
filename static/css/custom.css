@@ -1,5 +1,18 @@
 
+/* Flexbox */
+.flexbox-container {
+  display: flex; /* or inline-flex */
+  justify-content: space-evenly;
+}
 
+
+
+
+hr {
+  margin: 10%;
+  border-color: #e5e5e5;
+  border-style: solid;
+}
 
 .nav-title {
   color: #3844da;
@@ -13,4 +26,31 @@
 
 .post-line {
   border-color: #3844da;
+}
+
+.img-annotation {
+  font-style: italic;
+  font-size: 0.8em;
+  opacity: 0.7;
+}
+
+
+.quoted-block {
+  display: flex;
+  flex-direction: column;
+  margin: 0 15%;
+}
+.quoted-block .quoted-text {
+  font-family: Arial, sans-serif;
+  color: #818a91;
+  font-style: italic;
+  font-size: 1.4em;
+  text-align: left;
+  font-weight: bold;
+}
+.quoted-block .quoted-by {
+  font-family: Arial, sans-serif;
+  color: #818a91;
+  font-style: italic;
+  text-align:right;
 }

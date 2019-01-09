@@ -15,6 +15,7 @@
 			{{- end }}
 		</title>
 
+
 		<!-- CSS -->
 		{{- $inServerMode	:= .Site.IsServer }}
 		{{- $cssTarget		:= "css/style.css" }}
@@ -22,6 +23,7 @@
 		{{- $style			:= resources.Get "scss/tale.scss" | toCSS $cssOptions }}
   		<link rel="stylesheet" href="{{ $style.RelPermalink }}">
 
+		<!-- Custom CSS -->
 		{{ range .Site.Params.custom_css -}}
 		    <link rel="stylesheet" href="{{ . | absURL }}">
 		{{- end }}
