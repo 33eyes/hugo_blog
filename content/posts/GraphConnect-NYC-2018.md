@@ -1,7 +1,7 @@
 ---
 title: GraphConnect NYC 2018
 date: 2018-10-20T12:19:52-05:00
-category: Conferences
+categories: Conferences
 tags: ['graph-databases', 'neo4j', 'Cypher', 'network-analysis']
 summary: Notes and highlights from the GraphConnect 2018 conference in NYC.
 ---
