@@ -54,3 +54,8 @@ hr {
   font-style: italic;
   text-align:right;
 }
+
+
+a svg.feather {
+  color: #363ddd;
+}
