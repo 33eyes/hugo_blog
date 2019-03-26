@@ -1,3 +1,8 @@
+h1.post-title {
+  font-size: 3.4rem;
+}
+
+
 
 /* Flexbox */
 .flexbox-container {
@@ -58,4 +63,21 @@ hr {
 
 a svg.feather {
   color: #363ddd;
+}
+
+
+.img-row {
+  display: flex;
+  width: 1100px;
+  margin-left: -18%;
+}
+.img-col-half {
+  width: 50%;
+}
+
+.img-col-third {
+  width: 33%;
+}
+.img-col-two-thirds {
+  width: 66%;
 }
