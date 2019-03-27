@@ -8,30 +8,45 @@ draft: true
 ---
 
 Since November 2017, Wikipedia has been regularly releasing monthly clickstream datasets that capture summarized page-to-page user visits to Wikipedia articles. This clickstream data captures how we browse Wikipedia.  
-To maintain user privacy, the clickstream events (hops from one webpage to another) are added up across all users for the given month, and the clickstream events that add up to less than 10 are dropped. This means that there is no individual user information in this data, and that clickstream events that are so rare that they could potentially uniquely identify users have been removed. In addition, the publishers of this data filter known spider traffic out of it. This filtering is not bulletproof, and some spider traffic may remain in the data.  
-The resulting clickstream data is an anonymized version of our collective browsing history on Wikipedia, released in monthly batches. We can use data science techniques to see what's in it.
+To maintain user privacy, the clickstream events (hops from one webpage to another) are added up across all users for the given month, and the clickstream events that add up to less than 10 are dropped. This means that there is no individual user information in this data, and that clickstream events that are so rare that they could potentially uniquely identify users have been removed. In addition, the publishers of the data filter any known spider traffic out of it. This filtering is not bulletproof, however, and some spider traffic may remain in the data.  
+The resulting clickstream data is an anonymized version of our collective browsing history on Wikipedia, released in monthly batches. We can use data science techniques to explore what's in it.
 
-**So, let's see what we've been up to on Wikipedia in December 2018.**  
+So, let's see what we've been up to on Wikipedia in December 2018.  
 
-Why December 2018? Because these monthly clickstream datasets are quite large and can take a long time to process, so for practical purposes we'll start off with analyzing just one month's worth of the data. I've picked December 2018 because it is a recent month, but the same analyses can be done on any of the available English Wikipedia datasets (and with adjustments for language differences, for the several non-English language Wikipedia clickstream datasets available).
+> Why December 2018? These monthly clickstream datasets are quite large and can take a long time to process, so for practical purposes we'll start off with analyzing just one month's worth of the data. I've picked December 2018 because it was the most recent month available when I started working on this side project, but the same analyses can be done on any of the available English Wikipedia datasets (and with adjustments for language differences, for the several non-English language Wikipedia clickstream datasets available).
 
 
 What do we do on Wikipedia?
----
+---  
 
-Bla bla bla. Focus on wikipedia breakdown and non-graph stats here.
+In addition to making its raw clickstream datasets available to the public, Wikipedia also has great publicly available tools for exploring its online traffic. One of them is this [Topviews Analysis tool](https://tools.wmflabs.org/topviews/), where users can look up the top viewed Wikipedia articles.  
+According to the Topviews Analysis tool, the most viewed Wikipedia articles in December 2018 were:  
 
-Chart.
-<hr>
+<img src="/images/topviews_analysis_tool_top10_dec2018.png" alt="Top 10 most viewed articles from the Topviews Analysis tool">
+_Source: [Wikipedia's Topviews Analysis tool](https://tools.wmflabs.org/topviews/?project=en.wikipedia.org&platform=all-access&date=2018-12&excludes=)_  
+
+The top viewed Wikipedia articles in December 2018 were mostly about recently released movies and famous people. The \#1 most viewed article was about [George H. W. Bush](https://en.wikipedia.org/wiki/George_H._W._Bush), who died on November 30, 2018.  
+
+Using clickstream data, we can split the Wikipedia article views by traffic type. This way we can roughly see how people got to the article pages.  
+
+> The visualization below is interactive. Click on a traffic type to see its stats.  
+
 <iframe id="viz1" style="margin-left: -24%;" type="text/html" width="1200" height="940" src="/visualizations/analyzing-our-collective-wikipedia-browsing-history-viz-1" allowfullscreen frameborder="0">
 </iframe>
 <hr>
+
+The breakdown of Wikipedia article views by traffic type shows that about 40% of the time we got to Wikipedia from online search results, and it looks like we've searched for nearly 60% of all English Wikipedia articles that were in existence as of December 2018.  
+That is impressive, but not as impressive as the [empty referer](https://stackoverflow.com/questions/6880659/in-what-cases-will-http-referer-be-empty) traffic, which has visited nearly 90% of the existng articles. Empty referer traffic could result from several scenarios, including security measures, spiders and other automated browsing. The wide reach of the empty referer is likely the product of automated article visits by spiders and bots.  
+
+
+Talk about links traffic, and about internal vs external browsing.  
+
 
 
 Where do we go when we keep on reading?
 ---
 
-Bla bla bla. Focus on graph analytics and community detection here.
+Focus on graph analytics and community detection here.
 
 Chart.
 <div class="flexbox-container">
