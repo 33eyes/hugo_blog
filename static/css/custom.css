@@ -11,9 +11,13 @@ h2 {
 .flexbox-container {
   display: flex; /* or inline-flex */
   justify-content: space-evenly;
+  margin-bottom: 1rem;
 }
 
-
+blockquote {
+  //padding: 0;
+  padding: .5rem 1rem;
+}
 
 
 hr {
@@ -76,6 +80,7 @@ a svg.feather {
 }
 .img-col-half {
   width: 50%;
+  text-align: justify;
 }
 
 .img-col-third {
