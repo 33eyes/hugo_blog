@@ -44,7 +44,7 @@ The breakdown of Wikipedia article views by traffic type shows that about 40% of
 
 Empty referer traffic could result from several scenarios, including entering the website URL into the browser address bar, opening a bookmarked webpage, setting a webpage as the browser's default page, various security measures, spiders and other automated browsing, etc. (see [this discussion on StackOverflow](https://stackoverflow.com/questions/6880659/in-what-cases-will-http-referer-be-empty) for more details). About half a billion, or 27%, of the 1.8 billion empty referer traffic went to the Wikipedia [Main Page](https://en.wikipedia.org/wiki/Main_Page) article, which seems like a good candidate for bookmarking, setting the page as browser default, or typing in the page into the browser address bar. The rest of the empty referer traffic is thinly spread across the 90% of existing acticles, with less than 1% of the empty referer traffic going to any one article. The wide reach of this remaining empty referer traffic is probably the result of automated article visits by spiders and bots.  
 
-The next big chunk of online traffic to English Wikipedia articles comes from the Wikipedia articles themselves. About 25% of the December 2018 traffic to Wikipedia articles was users clicking on a link in a Wikipedia article to go to another Wikipedia article. Another 0.9% of the traffic was from users going from one Wikipedia article to another, but with no link from the former to the latter. According to the Wikipedia clickstream data's [documentation](https://meta.wikimedia.org/wiki/Research:Wikipedia_clickstream#Format), this could happen when users search from a Wikipedia article, or if they spoof their referer. For simplicity, we'll assume that these clickstream events are internal searches from Wikipedia article pages. Putting the links traffic and internal searches together, we see that 25.9% of Wikipedia traffic in December 2018 happened because people went from one Wikipedia article to another and kept on reading.  
+The next big chunk of our online traffic to Wikipedia articles comes from the Wikipedia articles themselves. About 25% of the December 2018 traffic to Wikipedia articles consisted of users clicking on a link in a Wikipedia article to go to another Wikipedia article. Another 0.9% of the traffic was from users going from one Wikipedia article to another, but with no link from the former to the latter. According to the Wikipedia clickstream data's [documentation](https://meta.wikimedia.org/wiki/Research:Wikipedia_clickstream#Format), this could happen when users search from a Wikipedia article's page, or if they spoof their referer. For simplicity, we'll assume that these clickstream events are internal searches from Wikipedia article pages. Putting the links traffic and internal searches together, we see that 25.9% of Wikipedia traffic in December 2018 happened because people went from one Wikipedia article to another and kept on reading.  
 
 
 Where did we go when we kept on reading?
@@ -67,107 +67,208 @@ For the quarter of Wikipedia traffic that is links and internal searches, the cl
   </div>
 </div>
 
-The hairball graph visualization does a great job to illustrate just how complex our browsing behaviors are, but it's very hard to see what's going on in it. To clean up the hairball, we can group the article clusters, a.k.a. communities, into article community nodes, and sum up the article-to-article traffic into community-to-community traffic.
+The hairball graph visualization does a great job to illustrate just how complex our browsing behaviors are, but it's very hard to see what's going on in it. To clean up the hairball, we can group the article clusters, a.k.a. communities, into article community nodes, and sum up the article-to-article traffic into community-to-community traffic.  
+
+In the
+<a href="https://upload.wikimedia.org/wikipedia/commons/4/46/English_Wikipedia_clickstream_communities_December_2018.png" target="_blank">high-res version of the article-to-article graph above</a>, it's possible to look around an article community and get a sense of what it is about by reading the article titles. When grouping the article communities into community nodes, we lose that ability to see the individual article titles within a community, which makes it hard to tell what the article communities are about. To remedy that, we can use natural language processing techniques to extract key terms from the article titles within communities. We'll use a technique called [bag-of-words](https://en.wikipedia.org/wiki/Bag-of-words_model) to extract the top 10 most frequent [lemmatized](https://nlp.stanford.edu/IR-book/html/htmledition/stemming-and-lemmatization-1.html) words used in article titles within each community. These lists of top 10 lemmatized words for each article community can give us a rough idea of what each communty is about. We'll also use a technique called [named entity recognition](https://en.wikipedia.org/wiki/Named-entity_recognition) to extract the top 5 named entities for each community. This will tell us whether an article community mostly contains articles about people, places, organizations, or something else.   
 
 
-TODO: talk about using NLP to labels the article communities here.
 
+The result is the article community-to-community graph shown in the visualization below. It is still a hairball of sorts, but it is now much easier to navigate. And since the aggregated communities are less complex to visualize, we can display all 1,698 of them.
 
-Below is the article community-to-community graph visualization. It is still a hairball of sorts, but it is now much easier to navigate.  
-
-> The visualization below is interactive. Click the "Show legend" button for more information about the visualization notation. You can zoom in, drag the nodes around, or click on the article community nodes to see a community's stats card.  
-At the bottom of each community stats card are listings of the top 5 most significant articles in the community, organized into tabs by a few selected metrics: top viewed articles, influencers and connectors. Click on the tabs to see the lists.
+> The visualization below is interactive. Click the "Show legend" button for more information about the visualization notation. Zoom in, drag the article community nodes around, or click on one of them to see its community stats card.  
+At the bottom of each community stats card are listings of the top 5 most significant articles in the community, organized into tabs by a few selected metrics: top viewed articles, influencers and connectors. Click on the tabs to see the lists.  
 
 
 <iframe id="viz2" style="margin-left: -14%; margin-top: 1rem; margin-bottom: 1rem;" type="text/html" width="1000" height="700" src="/visualizations/analyzing-our-collective-wikipedia-browsing-history-viz-2" allowfullscreen frameborder="1">
 </iframe>
 <a href="/visualizations/analyzing-our-collective-wikipedia-browsing-history-viz-2" target="_blank">Click here for a full page version of this visualization.</a>
 
+Visualizing our Wikipedia browsing history this way, we can see some patterns emerge.  
 
+There are 7 major article communities that can be roughly described by the following topics:  
+ **- Community id 3**: current events, politics and famous people relevant to the United States  
+**- Community id 7**: religion, literature, history and culture  
+**- Community id 4**: movies, tv and actors  
+**- Community id 10**: the United States  
+**- Community id 5**: music, musicians and discographies  
+**- Community id 1**: software and tech  
+**- Community id 2**: health, biology and sexuality  
 
-Focus on communities graph stats here.
+>You can look up any of these article communities by plugging their ids into the search box in the visualization above.  
 
+The 7 largest article communities above cover the topics one would expect to see, but if we take a look at the smaller communities, the topics get a bit more interesting. Towards the bottom of the graph visualization, we have a cluster of medium-sized communities, which seem to have lots of search traffic between each other. Many of them are focused on specific sports, hobbies and interests. For example, we've got a wrestling/boxing community (id 15), a chess community (id 20), a Tolkien community (id 46), an Indian movies community (id 9), a trains community (id 0), and so on.
+And then we have a big cloud of very small article communities, where each of those tiny article communities focuses on a very narrow topic, like a specific book or event.  
 
-Highlighting the graph by topic terms.  
+An interesting feature of the topics of these article communities is that many of them are combinations of multiple themes, and many topic words span multiple communities. For example, while community 7 is a combination of religion, literature, history and culture, topic terms related to literature can be found across many other article communities.  
 
+To explore these community topic patterns a little, we can search the article community topics for specific terms and highlight the communities that match.  
+
+Let's start with everyone's favorite topic.
+
+### Politics  
 
 <div class="img-row">
   <div class="img-col-half">
     <img src="/images/comm_graph_highlights_13.png" alt="Community graph with highlights by topic terms">
-    Topic terms selected: politic || elect || govern || diplomat || presid || feder || parliament || mayor || gubernatori || senat | communities found: 202  
+    <strong>Communities found: 202</strong>
+    <br>
+    <div class="topic-terms">
+      Topic terms selection:
+      <br>
+      politic || elect || govern || diplomat || presid || feder || parliament || mayor || gubernatori || senat
+    </div>
   </div>
   <div class="img-col-half">
-
+    Politics is a key topic in the largest article community in our Wikipedia browsing history network. But it is also present in the topic terms of many small and relatively isolated communities.  
+    <blockquote>
+      In this and subsequent visualizations, the pink highlights show article communities that matched the chosen topic terms.
+      <br><br>
+      <strong>WARNING:</strong> These highlights are meant to show how various topics spread and overlap across large and interconnected communities versus those that are relatively small and isolated. These highlights simply illustrate in broad strokes the complexity of topics we read about on Wikipedia.  
+      They are not meant to precisely show a topic term distribution. Doing so would call for a more in-depth NLP analysis and a more precise topic term matching. If a community is not highlighted for a particular topic term, it could still contain matching articles for that term, but they were not frequent enough to be part of the top 10 terms for that community.
+    </blockquote>
+    Many of the small politics-themed communities are about various past local elections around the world. Those of them located to the bottom left of the largest politics node are mainly about North American past local elections.
   </div>
 </div>
 
-Entertainment highlights  
+The visualization above shows not the quantity of politics-themed articles read on Wikipedia, but rather the **spread of the topic** of politics across both a very large and highly interconnected article community and a multitude of very small and isolated communities.  
+
+> For a closer look at the highlighted article communities, <a href="/visualizations/analyzing-our-collective-wikipedia-browsing-history-viz-3" target="_blank">here is the communities graph visualization with highlighting</a>. To highlight the communities with political topics, copy the topic terms selection listed under the politics graph visualization, and paste it into the highlighter prompt.  
+
+> You can also try highlighting your own topic terms in the graph. Just make sure to read the highlighter search prompt instructions.
+
+<br><br>
+
+
+Let's try highlighting a few more popular topic terms.  
+
+### Movies vs TV  
 
 <div class="img-row">
   <div class="img-col-third">
-  </div>
-  <div class="img-col-third">
+    <h2>Movies</h2>
     <img src="/images/comm_graph_highlights_3.png" alt="Community graph with highlights by topic terms">
-
-
-      `film` - 90 communities
+    <strong>Communities found: 90</strong>
+    <br>
+    <div class="topic-terms">
+      Topic terms selection: film
+      </div>
   </div>
   <div class="img-col-third">
+    <h2>TV</h2>
     <img src="/images/comm_graph_highlights_4.png" alt="Community graph with highlights by topic terms">
-    Topic terms selected: (tv && !(latvi)) || episod | communities found: 37   
+    <strong>Communities found: 37</strong>
+    <br>
+    <div class="topic-terms">
+      Topic terms selection: (tv && !(latvi)) || episod
+    </div>
+  </div>
+  <div class="img-col-third">
+    Unsurprisingly, movies and TV shows are very popular topics in the Wikipedia browsing history, with movies being much more popular than TV. The movies topic spans the 3 largest article communities, overlapping with topics about TV, books and politics. And there are lots of small article communities dedicated to specific movies, actors or TV series.
+    <br>
+    Some ethnicities have their own movie/TV article communities.
   </div>
 </div>
 
+### Music and books  
+
 <div class="img-row">
   <div class="img-col-third">
-  </div>
-  <div class="img-col-third">
+    <h2>Music</h2>
     <img src="/images/comm_graph_highlights_5.png" alt="Community graph with highlights by topic terms">
-    Topic terms selected: music || song || singer || discograph | communities found: 147
+    <strong>Communities found: 147</strong>
+    <br>
+    <div class="topic-terms">
+      Topic terms selection:
+      <br>
+      music || song || singer || discograph
+    </div>
   </div>
   <div class="img-col-third">
+    <h2>Books</h2>
     <img src="/images/comm_graph_highlights_2.png" alt="Community graph with highlights by topic terms">
-    `novel || book || literatur || author || writer` - 121 communities  
+    <strong>Communities found: 121</strong>
+    <br>
+    <div class="topic-terms">
+      Topic terms selection:
+      <br>
+      novel || book || literatur || author || writer
+    </div>
+  </div>
+  <div class="img-col-third">
+    Both music and literature are key topics in large article communities, and both have many small niche article communities focused on individual musicians and novels, respectively.
   </div>
 </div>
 
 
 
-Sports
-
+### Sports  
+There are lots of sports-themed article communities of all sizes in our Wikipedia browsing history. The most popular sports topic in the graph is football, including both American football and soccer. I've attempted to separate them out in the highlighted graphs below.
 
 <div class="img-row">
   <div class="img-col-third">
+    <h2>All sports</h2>
     <img src="/images/comm_graph_highlights_9.png" alt="Community graph with highlights by topic terms">
-    Topic terms selected: sport || olympi || champion || athlet || team || swim || runn || footbal || soccer || basketbal || basebal || hockey || wrestl || tennis || golf || cricket || rugbi | communities found: 85
+    <strong>Communities found: 85</strong>
+    <br>
+    <div class="topic-terms">
+      Topic terms selection:
+      <br>
+      sport || olympi || champion || athlet || team || swim || runn || footbal || soccer || basketbal || basebal || hockey || wrestl || tennis || golf || cricket || rugbi
+    </div>
   </div>
   <div class="img-col-third">
+    <h2>American football</h2>
     <img src="/images/comm_graph_highlights_10.png" alt="Community graph with highlights by topic terms">
-    Topic terms selected: (footbal && team && !(nation)) || (footbal && (america || (unit && state) )) | communities found: 18
+    <strong>Communities found: 18</strong>
+    <br>
+    <div class="topic-terms">
+      Topic terms selection:
+      <br>
+      (footbal && team && !(nation)) || (footbal && (america || (unit && state) ))
+    </div>
   </div>
   <div class="img-col-third">
+    <h2>Soccer</h2>
     <img src="/images/comm_graph_highlights_11.png" alt="Community graph with highlights by topic terms">
-    Topic terms selected: soccer || (associ && footbal) || futebol || (footbal && !( (footbal && team && !(nation)) || (footbal && (america || (unit && state) )) ) ) | communities found: 31  
+    <strong>Communities found: 31</strong>
+    <br>
+    <div class="topic-terms">
+      Topic terms selection:
+      <br>
+      soccer || (associ && footbal) || futebol || (footbal && !( (footbal && team && !(nation)) || (footbal && (america || (unit && state) )) ) )
+    </div>
   </div>
 </div>
 
 
-
-
-John VS Mary & Co.
+### John vs Mary & Co.
 
 <div class="img-row">
   <div class="img-col-third">
-  </div>
-  <div class="img-col-third">
+    <h2>Just John</h2>
     <img src="/images/comm_graph_highlights_16.png" alt="Community graph with highlights by topic terms">
-    Topic terms selected: john | communities found: 73  
+    <strong>Communities found: 73</strong>
+    <br>
+    <div class="topic-terms">
+      Topic terms selection: john
+    </div>
   </div>
   <div class="img-col-third">
+    <h2>Mary, Maria, Anna, Anne, Elizabeth, etc.</h2>
     <img src="/images/comm_graph_highlights_17.png" alt="Community graph with highlights by topic terms">
-    Topic terms selected: (mari && !(mariag || marin)) || anna || (anne && !(channel || branne || gannet)) || elizabeth | communities found: 48  
-
-    ( just Mary/Maria returns 25 communities )
+    <strong>Communities found: 48</strong>
+    <br>
+    <div class="topic-terms">
+      Topic terms selection:
+      <br>
+      (mari && !(mariag || marin)) || anna || (anne && !(channel || branne || gannet)) || elizabeth
+    </div>
+  </div>
+  <div class="img-col-third">
+    I've noticed that the name John shows up in many of the top topic terms lists of the article communities. The reason "John" shows up in the top 10 topic terms for so many communities is because those communities have articles about people, many of whom are named John. While "John" is not a topic, I thought it would be interesting to highlight all article communities that have "John" in their top topic terms.  
+    <br><br>
+    For comparison, I've also tried highlighting several popular Western female names. The highlighting on the left shows matches for Mary, Maria, Anna, Anne, Elizabeth, and also any names that contain these names, i.e., Rosemary, Hannah and Annette are also included in that highlighting.
   </div>
 </div>
 
