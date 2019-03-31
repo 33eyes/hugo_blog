@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Wikipedia clickstream communities network</title>
+
+  <!-- Bootstrap: Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <!-- fontawesome icons, feel free to delete if/when not needed anymore -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous">
+
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+
+  <!-- Vis.js minified CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" rel="stylesheet">
+
+
+  <link rel= "stylesheet" type= "text/css" href= "/visualizations/analyzing-our-collective-Wikipedia-browsing-history-viz-2.css">
+
+</head>
+<body>
+  <div id="header">
+    <button type="button" onclick="toggleLegend()" id="legend-btn" class="btn btn-secondary">Show legend</button>
+    <div class="search-box">
+      <p>Community id lookup:</p>
+      <input type="text" placeholder="id number" name="search1" id="search-by-comm-id">
+      <button type="button" id="search-by-comm-id-btn"><i class="fa fa-search"></i></button>
+    </div>
+  </div>
+  <div id="legend" style="display: none;">
+    <h1>Wikipedia clickstream communities network
+      <br><span class="subtitle">for December 2018</span></h1>
+    <hr>
+    <h3><strong>Circles:</strong> Wikipedia article communities</h3>
+    <ul>
+      <li><strong>Size:</strong> community size</li>
+      <li><strong>Shade:</strong> relative community density
+        <ul>
+          <li><i class="fas fa-circle" id="high-density-icon"></i> <strong>:</strong> more interconnected community</li>
+          <li><i class="fas fa-circle" id="low-density-icon"></i> <strong>:</strong> less interconnected community</li>
+        </ul>
+      </li>
+      <li><strong>Hover text:</strong> Lemmatized<sup><a href="https://nlp.stanford.edu/IR-book/html/htmledition/stemming-and-lemmatization-1.html" target="_blank">?</a></sup> community topic words</li>
+      <li><strong><em>Click on a community circle
+        <br>to learn more about it!</em></strong></li>
+    </ul>
+    <h3><strong>Lines:</strong> article-to-article online traffic</h3>
+    <ul>
+      <li><strong>Width:</strong> traffic volume</li>
+      <li><strong>Color:</strong> traffic type
+        <ul>
+          <li><i class="fas fa-long-arrow-alt-right" id="line-link-icon"></i> <strong>:</strong> traffic along article links</li>
+          <li><i class="fas fa-long-arrow-alt-right" id="line-search-icon"></i> <strong>:</strong> traffic along internal searches</li>
+        </ul>
+      </li>
+      <li><strong><em>Tip:</em></strong> <br>to get a better view of connecting lines,
+        zoom into the graph or drag community circles away from the main cluster.</li>
+    </ul>
+  </div>
+
+
+  <div id="community-details-card" style="display: none;">
+    <h2>Article community details</h2>
+    <hr>
+    <h3>Community topic</h3>
+    <ul>
+      <li><strong>Top lemmatized terms<sup><a href="https://nlp.stanford.edu/IR-book/html/htmledition/stemming-and-lemmatization-1.html" target="_blank">?</a></sup>:</strong>
+        <br><span id="community-terms"></span></li>
+      <li><strong>Top named entities<sup><a href="https://spacy.io/api/annotation#named-entities" target="_blank">?</a></sup>:</strong>
+        <br><span id="community-ner"></span></li>
+    </ul>
+    <h3>Community stats</h3>
+    <ul>
+      <li><strong>Community id:</strong> <span id="community-id"></span></li>
+      <li><strong>Number of articles:</strong> <span id="community-size"></span></li>
+      <li><strong>Article views:</strong> <span id="community-views"></span></li>
+      <li><strong>Traffic from:</strong>
+        <table>
+          <tr>
+            <td><strong>outside Wikipedia</strong></td>
+            <td class="num-col community-traffic"><span id="community-external-traffic"></span></td>
+            <td class="num-col community-traffic"><span id="community-external-traffic-pct"></span>%</td>
+          </tr>
+          <tr id="ext-search-stats-row">
+            <td>&nbsp;&nbsp;<i class="fas fa-chevron-right"></i>&nbsp;&nbsp;<em><strong>search engines</strong></em></td>
+            <td class="num-col community-traffic"><em><span id="community-searches"></span></em></td>
+            <td class="num-col community-traffic"><em><span id="community-searches-pct"></span>%</em></td>
+          </tr>
+          <tr>
+            <td><strong>other article communities</strong></td>
+            <td class="num-col community-traffic"><span id="community-other-comm-traffic"></span></td>
+            <td class="num-col community-traffic"><span id="community-other-comm-traffic-pct"></span>%</td>
+          </tr>
+          <tr>
+            <td><strong>within this community</strong></td>
+            <td class="num-col community-traffic"><span id="community-internal-traffic"></span></td>
+            <td class="num-col community-traffic"><span id="community-internal-traffic-pct"></span>%</td>
+          </tr>
+        </table>
+      </li>
+      <li><strong>Relative network density:</strong> <span id="community-density"></span>
+      </li>
+    </ul>
+    <h3>Top articles</h3>
+    <div class="top-tab-buttons">
+      <button class="top-articles-button selected-btn" id="top-views-btn" onclick="showTopArticles('top-views')">Most viewed<span class='tooltiptext'>Most viewed articles</span></button>
+      <button class="top-articles-button" id="influencers-btn" onclick="showTopArticles('influencers')">Influencers<span class='tooltiptext'>Articles with the most connections within the community</span></button>
+      <button class="top-articles-button" id="connectors-btn" onclick="showTopArticles('connectors')">Connectors<span class='tooltiptext'>Articles that bring in the most traffic from other communities</span></button>
+    </div>
+    <ol class="top-articles-list" id="top-views"></ol>
+    <ol class="top-articles-list" id="influencers" style="display:none"></ol>
+    <ol class="top-articles-list" id="connectors" style="display:none"></ol>
+  </div>
+
+  <div id="graphChart"></div>
+
+
+    <!-- jquery js
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+ -->
+    <!-- Bootstrap compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js"></script>
+
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
+
+    <!-- Cytoscape minified JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.5.0/cytoscape.min.js"></script>
+
+
+    <!-- Vis.js minified JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+
+    <!-- custom viz functions -->
+    <script src="/visualizations/analyzing-our-collective-Wikipedia-browsing-history-viz-2.js"></script>
+
+
+    <script>
+      async function f() {
+
+
+        // Datasets on github
+        communityNodes = await d3.csv("https://raw.githubusercontent.com/33eyes/wiki-clickstream-graph/master/viz/community_graph/data/community_nodes.csv");
+        //console.log(communityNodes);
+        communityLinkEdges = await d3.csv("https://raw.githubusercontent.com/33eyes/wiki-clickstream-graph/master/viz/community_graph/data/community_link_edges.csv");
+        //console.log(communityLinkEdges);
+        communitySearchEdges = await d3.csv("https://raw.githubusercontent.com/33eyes/wiki-clickstream-graph/master/viz/community_graph/data/community_search_edges.csv");
+
+        // Top lists datasets
+        topViewedArticles = await d3.csv("https://raw.githubusercontent.com/33eyes/wiki-clickstream-graph/master/viz/community_graph/data/community_top_viewed_articles_clean.csv");
+        //console.log(topViewedArticles);
+        topInfluencerArticles = await d3.csv("https://raw.githubusercontent.com/33eyes/wiki-clickstream-graph/master/viz/community_graph/data/community_top_influencer_articles_clean.csv");
+        topConnectorArticles = await d3.csv("https://raw.githubusercontent.com/33eyes/wiki-clickstream-graph/master/viz/community_graph/data/community_top_connector_articles_clean.csv");
+
+
+
+        let network;
+
+        let nodes = new vis.DataSet(makeNodesArray());
+        let edges = new vis.DataSet(makeEdgesArray());
+
+        loadGraph(nodes, edges) ;
+
+      }
+
+      $(document).ready(function(){
+        f();
+      });
+
+    </script>
+
+</body>
+</html>
