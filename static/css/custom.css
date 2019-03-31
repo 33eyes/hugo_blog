@@ -106,3 +106,20 @@ div.topic-terms {
   font-size: .8em;
   margin-right: 20px;
 }
+
+
+/* table styles */
+table {
+//  border: 2px solid #e4e4e4;
+  width: 100%;
+  margin-bottom: 2rem;
+  border-collapse: collapse;
+}
+th {
+  text-align: left;
+  background: #f3f3f3;
+}
+th, td {
+  border: 2px solid #e4e4e4;
+  padding: 0 6px;
+}
