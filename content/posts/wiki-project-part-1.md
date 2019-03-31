@@ -4,6 +4,7 @@ date: 2018-04-16T10:20:00-05:00
 categories: Projects
 tags: ["graph-databases", "neo4j", "Cypher", "clickstream", "ETL", "network-analysis", "Python"]
 summary: An investigation of aggregated Wikipedia clickstream data using a graph database and network analysis.
+draft: true
 ---
 
 Whenever I want to learn about something, I google it, and sooner or later I end up on Wikipedia. And so do millions of other people, in many different languages. Wikipedia is a vast repository of knowledge organized into interlinked articles, and there are lots of ways to navigate through it as we learn. Whenever we browse Wikipedia, we learn and gather information, so perhaps our browsing behavior tendencies on Wikipedia can tell us something about how we learn on the internet. Do we tend to get the info that we need and move on? Do we delve into details and subtopics when we find something interesting? Do we tend to wander off into other topics? Do these behaviors vary across the different Wikipedia language domains? We can explore such questions by looking at the Wikipedia clickstream data.

@@ -4,7 +4,7 @@ date: 2019-03-24T15:15:28-04:00
 categories: Projects
 tags: ["graph-databases", "neo4j", "clickstream", "graphs", "network-analysis", "Python", "visualization", "D3", "vis.js"]
 summary: An investigation of our collective browsing behaviors on Wikipedia.
-draft: true
+draft: false
 ---
 
 Since November 2017, Wikipedia has been regularly releasing monthly clickstream datasets that capture summarized page-to-page user visits to Wikipedia articles. This clickstream data is a record of how we browse Wikipedia.  
