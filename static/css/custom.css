@@ -110,7 +110,6 @@ div.topic-terms {
 
 /* table styles */
 table {
-//  border: 2px solid #e4e4e4;
   width: 100%;
   margin-bottom: 2rem;
   border-collapse: collapse;
@@ -122,4 +121,41 @@ th {
 th, td {
   border: 2px solid #e4e4e4;
   padding: 0 6px;
+}
+
+
+/* Viz gallery styles */
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 2rem;
+}
+
+.gallery-item, .gallery-item.catalogue-item:last-child {
+    max-width: 32%;
+    border: 2px solid #dadada;
+
+    background: #f1f1f1;
+    padding: 0 8px;
+}
+
+
+h1.gallery-title {
+    font-size: 16px;
+    color: #636363;
+}
+
+.gallery-item img {
+    background: white;
+}
+
+.gallery-item .catalogue-line {
+    margin-bottom: 16px;
+}
+
+.gallery-item p {
+  font-size: 14px;
+  // text-align: justify;
 }
